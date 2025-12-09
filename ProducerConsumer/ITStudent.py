@@ -53,21 +53,19 @@ class ITStudent:
         print()
 
     def generate_random_data(self):
-        # Random name
         first_names = ["Anele", "Shadile", "Moonashe","Nkanyezi", "Lethukukhanya", "Zanele", "Precious", "Thandeka"]
         last_names = ["Ndwandwe", "Zwane", "Matsanura", "Mthethwa", "Mamba", "Gule", "Gina", "Jele"]
         self.student_name = random.choice(first_names) + " " + random.choice(last_names)
 
-        # Random 8-digit ID
+        
         self.student_id = "".join(str(random.randint(0, 9)) for _ in range(8))
 
-        # Random programme
         programmes = ["Computer Science", "Information Technology", "CyberSecurity", "Data Science"]
         self.programme = random.choice(programmes)
 
-        # Random courses and marks
         courses = ["CSC493", "CSC461", "CSC301", "CSC411", "MAT101", "CSC400"]
         num_courses = random.randint(3, 6)
         selected_courses = random.sample(courses, num_courses)
         for course in selected_courses:
+
             self.add_course(course, random.randint(0, 100))
