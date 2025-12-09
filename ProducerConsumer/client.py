@@ -12,7 +12,7 @@ if __name__ == "__main__":
     print("   SOCKET CONSUMER (CLIENT)")
     print("========================================\n")
     
-    # Create socket
+    # Now Creating socket
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(("127.0.0.1", PORT))
     
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     
     student_count = 0
     
-    # Receive and process students
+    # Receiving and processing students records
     while True:
         # Receive data length
         data_length_bytes = client_socket.recv(4)
@@ -31,12 +31,12 @@ if __name__ == "__main__":
         
         data_length = int.from_bytes(data_length_bytes, "big", signed=True)
         
-        # Check for termination signal
+        #  termination signal checking
         if data_length == -1:
             print("\nReceived termination signal")
             break
         
-        # Receive XML data
+        # now Receive the XML data
         xml_data = b""
         while len(xml_data) < data_length:
             packet = client_socket.recv(data_length - len(xml_data))
@@ -49,17 +49,18 @@ if __name__ == "__main__":
         student_count += 1
         print(f"[CONSUMER] Received student {student_count} data ({data_length} bytes)")
         
-        # Parse XML to student object
+        # Parse the XML to student object....let's go
         student = XMLHandler.parse_xml_string(xml_str)
         
-        # Display student information
+        # Displaying student information
         student.display()
     
     print(f"\n[CONSUMER] Processed {student_count} students")
     
-    # Close socket
+    # Close the socket
     client_socket.close()
     
     print("\n========================================")
     print("   Client completed successfully!")
+
     print("========================================\n")
