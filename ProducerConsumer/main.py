@@ -8,34 +8,34 @@ from ITStudent import ITStudent
 from XMLHandler import XMLHandler
 from Buffer import Buffer
 
-# Global shared buffer
+# the Global shared buffer
 shared_buffer = Buffer()
 
-# Shared directory for XML files
+# Sharing directory for XML files
 SHARED_DIR = "./shared_directory/"
 
-# Number of items to produce/consume
+# number of items to produce/consume/ITstudents
 NUM_ITEMS = 10
 
 def producer():
     print("\n[PRODUCER] Started\n")
     
     for i in range(1, NUM_ITEMS + 1):
-        # Create a new student with random data
+        # Creating a new student with random data
         student = ITStudent()
         student.generate_random_data()
         
-        # Generate filename
+        # Generating the filename
         filename = os.path.join(SHARED_DIR, f"student{i}.xml")
         
-        # Wrap student data to XML file
+        # Wrapping the student data into XML file
         if XMLHandler.wrap_to_xml(student, filename):
             print(f"[PRODUCER] Created {filename}")
             
-            # Add file number to buffer
+            # Adding file number to our buffer
             shared_buffer.produce(i)
             
-            # Sleep for a bit to simulate production time
+            # Sleeping for a bit to simulate production time...for a bit
             time.sleep(1)
         else:
             print(f"[PRODUCER] Failed to create {filename}", file=os.sys.stderr)
@@ -46,28 +46,28 @@ def consumer():
     print("\n[CONSUMER] Started\n")
     
     for i in range(NUM_ITEMS):
-        # Get file number from buffer
+        # Getting our file number from buffer
         file_num = shared_buffer.consume()
         
-        # Generate filename
+        # again generating filename
         filename = os.path.join(SHARED_DIR, f"student{file_num}.xml")
         
         print(f"[CONSUMER] Processing {filename}")
         
-        # Unwrap XML file to student object
+        # Unwrapping the XML file to student object
         student = XMLHandler.unwrap_from_xml(filename)
         
-        # Display student information
+        # Displaying our student information
         student.display()
         
-        # Delete the XML file after processing
+        # Deleting the XML file after processing
         try:
             os.remove(filename)
             print(f"[CONSUMER] Deleted {filename}")
         except Exception as e:
             print(f"[CONSUMER] Failed to delete {filename}: {e}", file=os.sys.stderr)
         
-        # Sleep for a bit to simulate consumption time
+        # Sleep for a bit to simulate consumption time now not production
         time.sleep(1)
     
     print(f"\n[CONSUMER] Finished consuming {NUM_ITEMS} items\n")
@@ -99,4 +99,6 @@ if __name__ == "__main__":
     
     print("\n========================================")
     print("   All threads completed successfully!")
+
     print("========================================\n")
+    
