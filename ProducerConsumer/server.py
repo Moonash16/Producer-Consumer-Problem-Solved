@@ -16,7 +16,7 @@ if __name__ == "__main__":
     print("   SOCKET PRODUCER (SERVER)")
     print("========================================\n")
     
-    # Create socket
+    # Here we create the socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.bind(("127.0.0.1", PORT))
@@ -25,45 +25,45 @@ if __name__ == "__main__":
     print(f"Server listening on port {PORT}...")
     print("Waiting for consumer to connect...\n")
     
-    # Accept connection
+    # Now we have to accept connection
     client_socket, addr = server_socket.accept()
     print("Consumer connected!")
     print("Starting to produce student data...\n")
     
-    # Produce and send 10 students
+    # Now we have to produce and send 10 students
     for i in range(1, 11):
-        # Generate random student
         student = ITStudent()
         student.generate_random_data()
         
         print(f"[PRODUCER] Generating student {i}")
         
-        # Convert to XML
+        # Converting to our XML
         xml_data = XMLHandler.generate_xml_string(student)
         
-        # Send XML data length first
+        # Sending The XML data length first
         data_length = len(xml_data)
         client_socket.send(data_length.to_bytes(4, "big"))
         
-        # Send XML data
+        # Here we are sending XML data
         client_socket.send(xml_data.encode("utf-8"))
         
         print(f"[PRODUCER] Sent student {i} data ({data_length} bytes)")
         
-        time.sleep(2)  # Simulate production delay
+        time.sleep(2)  # (Simulating production delay)
     
     print(f"\n[PRODUCER] Finished sending all 10 students")
     
-    # Send termination signal
+    # Sending termination signal
     termination_signal = -1
     client_socket.send(termination_signal.to_bytes(4, "big", signed=True))
     
     print("Closing connection...")
     
-    # Close sockets
+    # Now we are done and closing the sockets
     client_socket.close()
     server_socket.close()
     
     print("\n========================================")
     print("   Server completed successfully!")
+
     print("========================================\n")
